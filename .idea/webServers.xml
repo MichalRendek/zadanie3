@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="bd1dde8f-6841-4094-9832-9a213f35981c" name="webtech" url="http://147.175.98.129/zadanie3">
+        <fileTransfer rootFolder="/home/xrendekm/public_html/zadanie3" accessType="SFTP" host="147.175.98.129" port="22" sshConfigId="00c4f989-56c4-4dd7-9fa1-e1352291678d" sshConfig="xrendekm@147.175.98.129:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
