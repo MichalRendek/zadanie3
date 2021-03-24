@@ -17,7 +17,7 @@ if ($result == 1) {
     $stmt = $db->query($query);
     $query = "INSERT INTO `account`(`user_id`, `type`, `password`, `secret_code`) VALUES (".$db->lastInsertId().",'2fa','".$password."','".$secret_code."')";
     $stmt = $db->query($query);
-    echo 'asfh';
+    echo 'success';
 } else {
-    echo 'Login failed';
+    echo 'failed';
 }
