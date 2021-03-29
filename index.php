@@ -6,6 +6,7 @@ $websiteTitle = 'Zadanie3';
 $ga = new PHPGangsta_GoogleAuthenticator();
 $secret = $ga->createSecret();
 $qrCodeUrl = $ga->getQRCodeGoogleUrl($websiteTitle, $secret);
+$isRegistred = isset($_GET["registrate"]) ? $_GET["registrate"] : "undefined";
 
 //third parameter of verifyCode is a multiplicator for 30 seconds clock tolerance
 //$result = $ga->verifyCode($secret, $myCode, 1);
@@ -24,6 +25,9 @@ $qrCodeUrl = $ga->getQRCodeGoogleUrl($websiteTitle, $secret);
     <title>Bootstrap 4 Login/Register Form</title>
 </head>
 <body>
+<div id="signup_message" class="alert alert-success text-center d-none" role="alert">
+    Užívateľ bol úspešne pridaný! Pre vstup do účtu sa prosím prihláste.
+</div>
 <div id="logreg-forms">
     <form class="form-signin">
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
@@ -45,7 +49,7 @@ $qrCodeUrl = $ga->getQRCodeGoogleUrl($websiteTitle, $secret);
         <button class="btn btn-primary m-auto mt-3 d-block" type="button" id="btn-signup"><i class="fas fa-user-plus"></i> Sign up New Account</button>
     </form>
 
-    <form action="2FA/signup.php" method="post" class="form-signup">
+    <form action="2FA/signup.php" method="post" class="form-signup" id="signup_form">
         <div class="social-login">
             <a href="ldap/index.php" class="btn ldap-btn social-btn py-2"><span><i class="fas fa-user-alt"></i> Sign up with LDAP</span> </a>
         </div>
@@ -57,12 +61,18 @@ $qrCodeUrl = $ga->getQRCodeGoogleUrl($websiteTitle, $secret);
 
         <input type="text" id="user-name"     name="name" class="form-control" placeholder="Full name" required autofocus="">
         <input type="email" id="user-email"   name="email" class="form-control" placeholder="Email address" required autofocus="">
+        <div id="user-email-verify" class="invalid-feedback d-none">
+            Tento mail už existuje!
+        </div>
         <input type="password" id="user-pass" name="password" class="form-control" placeholder="Password" required autofocus="">
 
         <div id="verify_google_qr">
             <p class="text-center pt-2">Please scan this code</p>
             <img src="<?php echo $qrCodeUrl;?>" alt="application code" class="m-auto pt-1 d-block">
             <input type="text" id="qr_code" name="qr_code" class="form-control mt-2" placeholder="Code from app after scan qr" required>
+            <div id="qr_code_verify" class="invalid-feedback d-none">
+                Nesprávny kód!
+            </div>
             <input type="hidden" id="code" name="secret_code" value="<?php echo $secret;?>">
         </div>
 
@@ -74,6 +84,13 @@ $qrCodeUrl = $ga->getQRCodeGoogleUrl($websiteTitle, $secret);
     <br>
 
 </div>
+<script>
+    let isRegistred = "<?php echo $isRegistred?>";
+    console.log(isRegistred);
+    if (isRegistred == "success") {
+        $('#signup_message').removeClass("d-none");
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
 <script src="javascript.js"></script>

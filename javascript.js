@@ -16,8 +16,38 @@ $(()=>{
 })
 
 $(document).ready(function () {
-    var name = $('#user-name');
-    var email = $('#user-email');
-    var pass = $('#user-pass');
-    var repass = $('#user-repeatpass');
+    let name = $('#user-name');
+    let email = $('#user-email');
+    let pass = $('#user-pass');
+    let repass = $('#user-repeatpass');
+    let email_verify = $('#user-email-verify');
+    let qr_code = $('#qr_code');
+    let qr_code_verify = $('#qr_code_verify');
+
+    $('#signup_form').submit(function () {
+        event.preventDefault();
+        $.ajax({
+            url: '2FA/signup.php',
+            type : "POST",
+            data : $(this).serialize(),
+            success : function(data) {
+                console.log(data);
+                email.removeClass("is-invalid");
+                email_verify.addClass("d-none");
+                qr_code.removeClass("is-invalid");
+                qr_code_verify.addClass("d-none");
+                if (data.includes("for key 'user.email'")){
+                    email.addClass("is-invalid");
+                    email_verify.removeClass("d-none");
+                } else if (data == "failed") {
+                    qr_code.addClass("is-invalid");
+                    qr_code_verify.removeClass("d-none");
+                } else if (data == "success") {
+                    $(location).attr('href', 'http://147.175.98.129/zadanie3?registrate=success')
+                } else {
+                    alert("Something gona wrong!")
+                }
+            }
+        })
+    })
 });
